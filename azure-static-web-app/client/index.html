@@ -55,43 +55,35 @@
             })
         ];
 
-        function sleep(milliseconds) {
-            const date = Date.now();
-            let currentDate = null;
-            do {
-                currentDate = Date.now();
-            } while (currentDate - date < milliseconds);
-        }
-
-
         function init() {
             raster = new ol.layer.Tile({
                 source: new ol.source.OSM()
             });
 
-            while (true) {
-                map = new ol.Map({
-                    layers: [raster],
-                    target: 'map',
-                    view: new ol.View({
-                        center: [0, 0],
-                        zoom: 2
-                    })
-                });
+            getData();
+        }
 
-                // Sample URL: 
-                // http://localhost:3000/azure-static-web-app/client/index.html?rid=100113&gid=1
-                const params = new URLSearchParams(location.search);
-                const rid = params.get('rid');
-                const gid = params.get('gid');
-                const apiUrl = `/api/bus-data?rid=${rid}&gid=${gid}`;
-                $.getJSON(apiUrl, data => {
-                    //console.log(data);
-                    plotWKT(data);
-                });
-                sleep(15000);
+        function getData() {
+            map = new ol.Map({
+                layers: [raster],
+                target: 'map',
+                view: new ol.View({
+                    center: [0, 0],
+                    zoom: 2
+                })
+            });
 
-            }
+            // Sample URL: 
+            // http://localhost:3000/azure-static-web-app/client/index.html?rid=100113&gid=1
+            const params = new URLSearchParams(location.search);
+            const rid = params.get('rid');
+            const gid = params.get('gid');
+            const apiUrl = `/api/bus-data?rid=${rid}&gid=${gid}`;
+            $.getJSON(apiUrl, data => {
+                //console.log(data);
+                plotWKT(data);
+            });
+
         }
 
         function plotWKT(data) {
