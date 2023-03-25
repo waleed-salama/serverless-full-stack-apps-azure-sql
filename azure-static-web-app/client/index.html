@@ -59,11 +59,6 @@
             raster = new ol.layer.Tile({
                 source: new ol.source.OSM()
             });
-
-            getData();
-        }
-
-        function getData() {
             map = new ol.Map({
                 layers: [raster],
                 target: 'map',
@@ -72,7 +67,11 @@
                     zoom: 2
                 })
             });
+            getData();
+            setTimeout(getData, 15000);
+        }
 
+        function getData() {
             // Sample URL: 
             // http://localhost:3000/azure-static-web-app/client/index.html?rid=100113&gid=1
             const params = new URLSearchParams(location.search);
